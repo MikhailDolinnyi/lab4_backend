@@ -6,24 +6,24 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import ru.mikhail.lab4_backend.dbobjects.User
 import ru.mikhail.lab4_backend.requests.LoginRequest
-import ru.mikhail.lab4_backend.repository.LoginRepository
+import ru.mikhail.lab4_backend.repository.UserRepository
 
 @Service
-class LoginService(private val loginRepository: LoginRepository) {
+class LoginService(private val userRepository: UserRepository) {
 
     private val passwordEncoder = BCryptPasswordEncoder()
 
     @Transactional
     fun completeRequest(loginRequest: LoginRequest): User? {
 
-        var user = loginRepository.findByUsername(loginRequest.username)
+        var user = userRepository.findUserByUsername(loginRequest.username)
 
         if (user == null) {
 
 
             val hashedPassword = passwordEncoder.encode(loginRequest.password)
             user = User(username = loginRequest.username, password = hashedPassword)
-            loginRepository.save(user)
+            userRepository.save(user)
 
         }
 
