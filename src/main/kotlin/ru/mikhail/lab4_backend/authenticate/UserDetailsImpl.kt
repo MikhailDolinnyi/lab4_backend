@@ -1,4 +1,4 @@
-package ru.mikhail.lab4_backend
+package ru.mikhail.lab4_backend.authenticate
 
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority

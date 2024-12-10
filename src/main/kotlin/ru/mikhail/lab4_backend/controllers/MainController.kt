@@ -12,7 +12,7 @@ class MainController {
 
 
     @GetMapping("/user")
-    public fun userAccess(principal: Principal): String? {
+    fun userAccess(principal: Principal): String? {
         return principal.name
     }
 }

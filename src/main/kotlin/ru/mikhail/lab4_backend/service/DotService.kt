@@ -3,6 +3,8 @@ package ru.mikhail.lab4_backend.service
 import org.springframework.dao.DataAccessException
 import org.springframework.stereotype.Service
 import ru.mikhail.lab4_backend.DotChecker.checkDot
+import ru.mikhail.lab4_backend.DotMapper
+import ru.mikhail.lab4_backend.dto.ResponseData
 import ru.mikhail.lab4_backend.dbobjects.Dot
 import ru.mikhail.lab4_backend.repository.DotRepository
 import ru.mikhail.lab4_backend.requests.CheckRequest
@@ -10,8 +12,9 @@ import java.sql.Timestamp
 import java.time.LocalDateTime
 
 @Service
-class CheckDotService(
-    private val dotRepository: DotRepository
+class DotService(
+    private val dotRepository: DotRepository,
+    private val dotMapper: DotMapper
 ) {
 
 
@@ -44,6 +47,11 @@ class CheckDotService(
             false
         }
 
+    }
+
+    fun getList(): List<ResponseData> {
+        val dots = dotRepository.findAll()
+        return dots.map { dotMapper.toDto(it) }
     }
 
 

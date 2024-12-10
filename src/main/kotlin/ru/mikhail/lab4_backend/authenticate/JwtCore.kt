@@ -1,4 +1,4 @@
-package ru.mikhail.lab4_backend
+package ru.mikhail.lab4_backend.authenticate
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts

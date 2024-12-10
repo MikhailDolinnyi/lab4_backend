@@ -1,4 +1,4 @@
-package ru.mikhail.lab4_backend
+package ru.mikhail.lab4_backend.requests
 
 class SignRequest {
     lateinit var username: String
