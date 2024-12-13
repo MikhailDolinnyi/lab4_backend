@@ -14,8 +14,8 @@ import ru.mikhail.lab4_backend.requests.SignRequest
 
 @Service
 class AuthService(
-    @Autowired private val authenticationManager: AuthenticationManager,
-    @Autowired private val jwtCore: JwtCore,
+    private val authenticationManager: AuthenticationManager,
+    private val jwtCore: JwtCore,
 ) {
 
 

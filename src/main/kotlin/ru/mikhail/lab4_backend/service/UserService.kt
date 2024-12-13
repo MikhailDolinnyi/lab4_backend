@@ -17,8 +17,8 @@ import ru.mikhail.lab4_backend.requests.SignRequest
 
 @Service
 class UserService(
-    @Autowired private var userRepository: UserRepository,
-    @Autowired private val passwordEncoder: PasswordEncoder,
+    private var userRepository: UserRepository,
+    private val passwordEncoder: PasswordEncoder,
 ) : UserDetailsService {
 
 

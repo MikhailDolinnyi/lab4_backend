@@ -9,6 +9,7 @@ import ru.mikhail.lab4_backend.dto.ResponseData
 interface DotMapper {
 
 
+
     fun toDto(dot: Dot): ResponseData
 
     fun toEntity(responseData: ResponseData): Dot

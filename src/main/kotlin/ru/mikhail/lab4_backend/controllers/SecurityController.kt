@@ -13,14 +13,14 @@ import ru.mikhail.lab4_backend.service.UserService
 @RequestMapping("/auth")
 @RestController
 class SecurityController(
-    @Autowired private val userService: UserService,
-    @Autowired private val authService: AuthService
+    private val userService: UserService,
+    private val authService: AuthService
 ) {
 
 
     @PostMapping("/signup")
     fun signUp(@RequestBody signUpRequest: SignRequest): Any {
-       return userService.registerUser(signUpRequest)
+        return userService.registerUser(signUpRequest)
 
 
     }

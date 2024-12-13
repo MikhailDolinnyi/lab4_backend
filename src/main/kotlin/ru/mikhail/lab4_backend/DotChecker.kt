@@ -26,10 +26,11 @@ object DotChecker {
 
     private fun checkFourthQuarter(x: Float, y: Float, r: Float): Boolean {
         return if (x >= 0 && y <= 0) {
-            // Прямоугольник с размерами R/2 x R
-            x <= r / 2 && y >= -r
+            // Rectangle with dimensions R/2 x R
+            x <= r && y >= -r/2
         } else {
             false
         }
     }
+
 }

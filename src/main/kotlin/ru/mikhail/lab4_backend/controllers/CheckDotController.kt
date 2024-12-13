@@ -8,7 +8,7 @@ import ru.mikhail.lab4_backend.requests.CheckRequest
 import ru.mikhail.lab4_backend.service.DotService
 
 
-@CrossOrigin(origins = ["http://localhost:3000"])
+
 
 @RestController
 @RequestMapping("/dot")
