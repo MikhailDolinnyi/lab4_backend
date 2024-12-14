@@ -33,7 +33,7 @@ class TokenFilter(
                     SecurityContextHolder.getContext().authentication = auth
                 }
             } catch (e: ExpiredJwtException) {
-                // Обработайте случай истечения токена
+                //TODO
             }
         }
         filterChain.doFilter(request, response)
