@@ -1,6 +1,6 @@
 package ru.mikhail.lab4_backend.controllers
 
-import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -19,14 +19,14 @@ class SecurityController(
 
 
     @PostMapping("/signup")
-    fun signUp(@RequestBody signUpRequest: SignRequest): Any {
+    fun signUp(@RequestBody signUpRequest: SignRequest): ResponseEntity<String> {
         return userService.registerUser(signUpRequest)
 
 
     }
 
     @PostMapping("/signin")
-    fun signIn(@RequestBody signInRequest: SignRequest): Any {
+    fun signIn(@RequestBody signInRequest: SignRequest): ResponseEntity<String> {
         return authService.authorization(signInRequest)
     }
 

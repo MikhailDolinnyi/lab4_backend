@@ -1,5 +1,6 @@
 package ru.mikhail.lab4_backend.controllers
 
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -15,10 +16,9 @@ import ru.mikhail.lab4_backend.service.DotService
 class CheckDotController(private val dotService: DotService) {
 
     @PostMapping("/check")
-    fun checkDot(@RequestBody checkRequest: CheckRequest): ResponseEntity<Boolean> {
-        val response = dotService.completeCheckDot(checkRequest)
+    fun checkDot(@Valid @RequestBody checkRequest: CheckRequest): ResponseEntity<String> {
+        return dotService.completeCheckDot(checkRequest)
 
-        return ResponseEntity(response, HttpStatus.OK)
     }
 
     @GetMapping("/get-list")

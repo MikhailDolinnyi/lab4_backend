@@ -23,7 +23,7 @@ class UserService(
 
 
     @Transactional
-    fun registerUser(signUpRequest: SignRequest): Any {
+    fun registerUser(signUpRequest: SignRequest): ResponseEntity<String> {
         if (userRepository.existsByUsername(signUpRequest.username)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Choose different name")
         }

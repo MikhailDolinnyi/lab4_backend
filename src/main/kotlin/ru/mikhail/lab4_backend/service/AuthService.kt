@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import ru.mikhail.lab4_backend.authenticate.JwtCore
 import ru.mikhail.lab4_backend.requests.SignRequest
+import java.io.Serializable
 
 @Service
 class AuthService(
@@ -19,7 +20,7 @@ class AuthService(
 ) {
 
 
-    fun authorization(signInRequest: SignRequest): Any {
+    fun authorization(signInRequest: SignRequest): ResponseEntity<String> {
         val authentication: Authentication?
 
         try {
@@ -32,7 +33,7 @@ class AuthService(
         } catch (e: BadCredentialsException) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed")
         } catch (e: Exception) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e)
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.message)
         }
         SecurityContextHolder.getContext().authentication = authentication
         val jwt: String? = jwtCore.generateToken(authentication)
