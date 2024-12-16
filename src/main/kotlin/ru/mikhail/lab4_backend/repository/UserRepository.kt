@@ -8,4 +8,6 @@ import ru.mikhail.lab4_backend.dbobjects.User
 interface UserRepository : JpaRepository<User, Long> {
     fun findUserByUsername(username: String): User?
     fun existsByUsername(username: String): Boolean
+
+
 }

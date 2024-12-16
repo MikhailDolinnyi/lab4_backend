@@ -1,6 +1,7 @@
 package ru.mikhail.lab4_backend.authenticate
 
 import io.jsonwebtoken.Claims
+import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.beans.factory.annotation.Value
@@ -11,30 +12,57 @@ import java.util.*
 @Component
 class JwtCore {
 
-    @Value("\${app.secret}")
-    private lateinit var secret: String
+    @Value("\${access_secret}")
+    private lateinit var accessSecret: String
 
-    @Value("\${app.lifetime}")
-    private var lifetime: Int = 0
+    @Value("\${access.lifetime}")
+    private var accessLifetime: Long = 0
 
-    fun generateToken(authentication: Authentication): String? {
+    @Value("\${refresh_secret}")
+    private lateinit var refreshSecret: String
+
+    @Value("\${refresh_lifetime}")
+    private var refreshLifetime: Long = 0
+
+    fun generateAccessToken(authentication: Authentication): String? {
         val userDetails: UserDetailsImpl = authentication.principal as UserDetailsImpl
 
         return Jwts.builder()
             .setSubject(userDetails.username)
             .setIssuedAt(Date())
-            .setExpiration(Date(System.currentTimeMillis() + lifetime))
-            .signWith(SignatureAlgorithm.HS256, secret)
+            .setExpiration(Date(System.currentTimeMillis() + accessLifetime))
+            .signWith(SignatureAlgorithm.HS256, accessSecret)
             .compact()
     }
 
-    fun getNameFromJwt(token: String): String? {
+
+    fun generateRefreshToken(username: String): String? {
+        return Jwts.builder().setSubject(username).setIssuedAt(Date())
+            .setExpiration(Date(System.currentTimeMillis() + refreshLifetime))
+            .signWith(SignatureAlgorithm.HS256, refreshSecret).compact()
+    }
+
+
+    fun validateToken(token: String, isRefresh: Boolean = false): Boolean {
+        try {
+            Jwts.parser().setSigningKey(if (isRefresh) refreshSecret else accessSecret).parseClaimsJws(token)
+            return true
+        } catch (e: JwtException) {
+            return false
+        } catch (e: IllegalArgumentException) {
+            return false
+        }
+
+    }
+
+    fun getNameFromToken(token: String, isRefresh: Boolean): String? {
         // Парсинг токена
         val claims: Claims = Jwts.parser()
-            .setSigningKey(secret)
+            .setSigningKey(if (isRefresh) refreshSecret else accessSecret)
             .parseClaimsJws(token)
             .body
 
         return claims.subject
     }
+
 }

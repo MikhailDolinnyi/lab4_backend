@@ -14,7 +14,6 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.HttpStatusEntryPoint
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.web.cors.CorsConfiguration
-import ru.mikhail.lab4_backend.TokenFilter
 
 @Configuration
 @EnableWebSecurity

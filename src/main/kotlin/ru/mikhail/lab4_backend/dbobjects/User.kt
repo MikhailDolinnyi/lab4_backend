@@ -1,6 +1,7 @@
 package ru.mikhail.lab4_backend.dbobjects
 
 import jakarta.persistence.*
+import java.time.LocalDateTime
 
 
 @Entity
@@ -16,4 +17,7 @@ data class User(
     @Column(nullable = false)
     val password: String,
 
-)
+    var refreshTokenHash: String? = null,
+    var refreshTokenExpireTime: LocalDateTime? = null,
+
+    )
