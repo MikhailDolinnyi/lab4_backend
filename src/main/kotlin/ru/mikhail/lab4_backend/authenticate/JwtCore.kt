@@ -43,20 +43,11 @@ class JwtCore {
     }
 
 
-    fun validateToken(token: String, isRefresh: Boolean = false): Boolean {
-        try {
-            Jwts.parser().setSigningKey(if (isRefresh) refreshSecret else accessSecret).parseClaimsJws(token)
-            return true
-        } catch (e: JwtException) {
-            return false
-        } catch (e: IllegalArgumentException) {
-            return false
-        }
 
-    }
 
     fun getNameFromToken(token: String, isRefresh: Boolean): String? {
         // Парсинг токена
+
         val claims: Claims = Jwts.parser()
             .setSigningKey(if (isRefresh) refreshSecret else accessSecret)
             .parseClaimsJws(token)

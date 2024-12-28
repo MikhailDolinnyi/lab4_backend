@@ -23,14 +23,13 @@ class TokenFilter(
     ) {
         val path = request.servletPath
         if (path.startsWith("/auth/")) {
-
             filterChain.doFilter(request, response)
             return
         }
 
-
         val headerAuth = request.getHeader("Authorization")
         val jwt = headerAuth?.takeIf { it.startsWith("Bearer ") }?.substring(7)
+
         if (jwt != null) {
             try {
                 val username = jwtCore.getNameFromToken(jwt, isRefresh = false)
@@ -41,32 +40,14 @@ class TokenFilter(
                     SecurityContextHolder.getContext().authentication = auth
                 }
             } catch (e: ExpiredJwtException) {
-                val refreshToken = request.getHeader("Refresh-Token")
-                if (refreshToken != null) {
-                    try {
-                        val username = jwtCore.getNameFromToken(refreshToken, isRefresh = true)
-
-                        if (username != null) {
-                            val userDetails = userDetailsService.loadUserByUsername(username)
-                            val auth = UsernamePasswordAuthenticationToken(userDetails, null, userDetails.authorities)
-                            SecurityContextHolder.getContext().authentication = auth
-
-                            val newAccessToken = jwtCore.generateAccessToken(auth)
-                            response.setHeader("Access-Token", newAccessToken)
-
-                        }
-                    }catch (e : Exception){
-                        response.status = HttpServletResponse.SC_UNAUTHORIZED
-                        response.writer.write("Refresh token invalid or expired")
-                        return
-                    }
-
-
-                } else{
-                    response.status = HttpServletResponse.SC_UNAUTHORIZED
-                    response.writer.write("AccessTokenExpired")
-                    return
-                }
+                // Если токен истек, возвращаем HTTP 401
+                response.status = HttpServletResponse.SC_UNAUTHORIZED
+                response.writer.write("Access token expired")
+                return
+            } catch (e: Exception) {
+                response.status = HttpServletResponse.SC_UNAUTHORIZED
+                response.writer.write("Invalid token")
+                return
             }
         }
         filterChain.doFilter(request, response)
