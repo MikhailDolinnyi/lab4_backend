@@ -33,7 +33,7 @@ class UserService(
         return ResponseEntity.status(HttpStatus.OK).body("Success registration")
     }
 
-
+    @Transactional
     override fun loadUserByUsername(username: String): UserDetails {
         val user = userRepository.findUserByUsername(username)
             ?: throw UsernameNotFoundException("User '$username' not found")

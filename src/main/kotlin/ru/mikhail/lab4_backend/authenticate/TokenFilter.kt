@@ -38,6 +38,10 @@ class TokenFilter(
                     val userDetails = userDetailsService.loadUserByUsername(username)
                     val auth = UsernamePasswordAuthenticationToken(userDetails, null, userDetails.authorities)
                     SecurityContextHolder.getContext().authentication = auth
+                } else{
+                    response.status = HttpServletResponse.SC_UNAUTHORIZED
+                    response.writer.write("Invalid or expired token")
+                    return
                 }
             } catch (e: ExpiredJwtException) {
                 // Если токен истек, возвращаем HTTP 401

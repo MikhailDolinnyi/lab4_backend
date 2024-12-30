@@ -48,7 +48,6 @@ class SecurityConfigurator {
             .authorizeHttpRequests { authorize ->
                 authorize
                     .requestMatchers("/auth/**").permitAll()
-                    .requestMatchers("/secured/user").fullyAuthenticated()
                     .anyRequest().permitAll()
             }
             .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter::class.java)
