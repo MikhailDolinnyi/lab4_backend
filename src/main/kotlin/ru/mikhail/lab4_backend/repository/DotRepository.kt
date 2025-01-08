@@ -6,4 +6,5 @@ import ru.mikhail.lab4_backend.dbobjects.Dot
 
 @Repository
 interface DotRepository: JpaRepository<Dot, Long> {
+    fun findDotsByUsername(username: String): List<Dot>
 }

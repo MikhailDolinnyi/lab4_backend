@@ -1,6 +1,5 @@
 package ru.mikhail.lab4_backend.service
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.userdetails.UserDetails
@@ -13,6 +12,7 @@ import ru.mikhail.lab4_backend.authenticate.UserDetailsImpl
 import ru.mikhail.lab4_backend.dbobjects.User
 import ru.mikhail.lab4_backend.repository.UserRepository
 import ru.mikhail.lab4_backend.requests.SignRequest
+import ru.mikhail.lab4_backend.responses.SignUpResponse
 
 
 @Service
@@ -23,14 +23,14 @@ class UserService(
 
 
     @Transactional
-    fun registerUser(signUpRequest: SignRequest): ResponseEntity<String> {
+    fun registerUser(signUpRequest: SignRequest): ResponseEntity<SignUpResponse> {
         if (userRepository.existsByUsername(signUpRequest.username)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Choose different name")
+            return ResponseEntity(SignUpResponse(error = "Username already taken. Choose different name"), HttpStatus.BAD_REQUEST)
         }
         val hashed = passwordEncoder.encode(signUpRequest.password)
         val user = User(username = signUpRequest.username, password = hashed)
         userRepository.save(user)
-        return ResponseEntity.status(HttpStatus.OK).body("Success registration")
+        return ResponseEntity(SignUpResponse(info = "Success registration"), HttpStatus.OK)
     }
 
     @Transactional

@@ -1,8 +1,8 @@
-package ru.mikhail.lab4_backend.dto
+package ru.mikhail.lab4_backend.responses
 
 import java.sql.Timestamp
 
-data class ResponseData(
+data class GetDotsResponse(
     var x: Float,
     var y: Float,
     var r: Float,

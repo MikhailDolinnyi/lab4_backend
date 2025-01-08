@@ -16,6 +16,8 @@ data class Dot(
 
     var result: Boolean,
     var executionTime: Long,
-    var time: Timestamp
+    var time: Timestamp,
+
+    var username: String
 )
 

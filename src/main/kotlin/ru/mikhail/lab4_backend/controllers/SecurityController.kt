@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import ru.mikhail.lab4_backend.requests.RefreshTokenRequest
 import ru.mikhail.lab4_backend.requests.SignRequest
+import ru.mikhail.lab4_backend.responses.RefreshTokenResponse
+import ru.mikhail.lab4_backend.responses.SignInResponse
+import ru.mikhail.lab4_backend.responses.SignUpResponse
 import ru.mikhail.lab4_backend.service.AuthService
 import ru.mikhail.lab4_backend.service.UserService
 
@@ -20,19 +23,19 @@ class SecurityController(
 
 
     @PostMapping("/signup")
-    fun signUp(@RequestBody signUpRequest: SignRequest): ResponseEntity<String> {
+    fun signUp(@RequestBody signUpRequest: SignRequest): ResponseEntity<SignUpResponse> {
         return userService.registerUser(signUpRequest)
 
 
     }
 
     @PostMapping("/signin")
-    fun signIn(@RequestBody signInRequest: SignRequest): ResponseEntity<out Any> {
+    fun signIn(@RequestBody signInRequest: SignRequest): ResponseEntity<SignInResponse> {
         return authService.authorization(signInRequest)
     }
 
     @PostMapping("/refresh")
-    fun refreshToken(@RequestBody refreshTokenRequest: RefreshTokenRequest): ResponseEntity<out Map<String, String?>> {
+    fun refreshToken(@RequestBody refreshTokenRequest: RefreshTokenRequest): ResponseEntity<RefreshTokenResponse> {
         return authService.refreshToken(refreshTokenRequest)
 
 
