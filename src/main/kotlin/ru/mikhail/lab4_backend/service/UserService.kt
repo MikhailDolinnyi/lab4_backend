@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional
 import ru.mikhail.lab4_backend.authenticate.UserDetailsImpl
 import ru.mikhail.lab4_backend.dbobjects.User
 import ru.mikhail.lab4_backend.repository.UserRepository
-import ru.mikhail.lab4_backend.requests.SignRequest
-import ru.mikhail.lab4_backend.responses.SignUpResponse
+import ru.mikhail.lab4_backend.data.requests.SignRequest
+import ru.mikhail.lab4_backend.data.responses.SignUpResponse
 
 
 @Service

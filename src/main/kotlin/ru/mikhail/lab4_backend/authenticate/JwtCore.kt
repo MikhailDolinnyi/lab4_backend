@@ -24,23 +24,17 @@ class JwtCore {
     @Value("\${refresh_lifetime}")
     private var refreshLifetime: Long = 0
 
-    fun generateAccessToken(authentication: Authentication): String? {
+    fun generateToken(authentication: Authentication, isRefresh: Boolean = false): String? {
         val userDetails: UserDetailsImpl = authentication.principal as UserDetailsImpl
 
         return Jwts.builder()
             .setSubject(userDetails.username)
             .setIssuedAt(Date())
-            .setExpiration(Date(System.currentTimeMillis() + accessLifetime))
-            .signWith(SignatureAlgorithm.HS256, accessSecret)
+            .setExpiration(Date(System.currentTimeMillis() + if (isRefresh) refreshLifetime else accessLifetime))
+            .signWith(SignatureAlgorithm.HS256, if (isRefresh) refreshSecret else accessSecret)
             .compact()
     }
 
-
-    fun generateRefreshToken(username: String): String? {
-        return Jwts.builder().setSubject(username).setIssuedAt(Date())
-            .setExpiration(Date(System.currentTimeMillis() + refreshLifetime))
-            .signWith(SignatureAlgorithm.HS256, refreshSecret).compact()
-    }
 
 
 

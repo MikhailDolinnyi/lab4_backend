@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import ru.mikhail.lab4_backend.requests.RefreshTokenRequest
-import ru.mikhail.lab4_backend.requests.SignRequest
-import ru.mikhail.lab4_backend.responses.RefreshTokenResponse
-import ru.mikhail.lab4_backend.responses.SignInResponse
-import ru.mikhail.lab4_backend.responses.SignUpResponse
+import ru.mikhail.lab4_backend.data.requests.RefreshTokenRequest
+import ru.mikhail.lab4_backend.data.requests.SignRequest
+import ru.mikhail.lab4_backend.data.responses.RefreshTokenResponse
+import ru.mikhail.lab4_backend.data.responses.SignInResponse
+import ru.mikhail.lab4_backend.data.responses.SignUpResponse
 import ru.mikhail.lab4_backend.service.AuthService
 import ru.mikhail.lab4_backend.service.UserService
 

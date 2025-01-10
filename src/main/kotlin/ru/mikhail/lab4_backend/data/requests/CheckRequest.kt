@@ -1,4 +1,4 @@
-package ru.mikhail.lab4_backend.requests
+package ru.mikhail.lab4_backend.data.requests
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.Max

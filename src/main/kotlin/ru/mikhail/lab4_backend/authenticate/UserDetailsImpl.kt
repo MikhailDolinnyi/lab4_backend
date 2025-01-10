@@ -10,8 +10,6 @@ class UserDetailsImpl(
     private val id: Long,
     private val username: String,
     private val password: String,
-    private var refreshTokenHash: String?,
-    private var refreshTokenExpireTime: LocalDateTime?,
 ) : UserDetails {
 
     companion object {
@@ -20,8 +18,6 @@ class UserDetailsImpl(
                 user.id,
                 user.username,
                 user.password,
-                user.refreshTokenHash,
-                user.refreshTokenExpireTime
             )
         }
     }
@@ -40,14 +36,6 @@ class UserDetailsImpl(
 
     fun getId(): Long{
         return id
-    }
-
-    fun getRefreshTokenHash(): String? {
-        return refreshTokenHash
-    }
-
-    fun getRefreshTokenExpireTime(): LocalDateTime? {
-        return refreshTokenExpireTime
     }
 
     override fun isAccountNonExpired(): Boolean {

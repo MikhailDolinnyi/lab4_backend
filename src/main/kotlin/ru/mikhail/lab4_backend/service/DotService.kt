@@ -8,11 +8,11 @@ import org.springframework.transaction.annotation.Transactional
 import ru.mikhail.lab4_backend.DotChecker.checkDot
 import ru.mikhail.lab4_backend.DotMapper
 import ru.mikhail.lab4_backend.SecurityContext
-import ru.mikhail.lab4_backend.responses.GetDotsResponse
+import ru.mikhail.lab4_backend.data.responses.GetDotsResponse
 import ru.mikhail.lab4_backend.dbobjects.Dot
 import ru.mikhail.lab4_backend.repository.DotRepository
-import ru.mikhail.lab4_backend.requests.CheckRequest
-import ru.mikhail.lab4_backend.responses.CheckDotResponse
+import ru.mikhail.lab4_backend.data.requests.CheckRequest
+import ru.mikhail.lab4_backend.data.responses.CheckDotResponse
 import java.sql.Timestamp
 import java.time.LocalDateTime
 

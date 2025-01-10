@@ -14,6 +14,8 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.HttpStatusEntryPoint
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.CorsConfigurationSource
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 @Configuration
 @EnableWebSecurity
@@ -30,14 +32,25 @@ class SecurityConfigurator {
     }
 
     @Bean
+    fun corsConfigurationSource(): CorsConfigurationSource {
+        val corsConfiguration = CorsConfiguration()
+        corsConfiguration.allowedOrigins = listOf("http://localhost:3000") // Разрешённый адрес фронтенда
+        corsConfiguration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS") // Разрешённые методы
+        corsConfiguration.allowedHeaders = listOf("*") // Разрешённые заголовки
+        corsConfiguration.allowCredentials = true // Разрешение на использование куки
+
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", corsConfiguration)
+        return source
+    }
+
+    @Bean
     @Throws(Exception::class)
     fun filterChain(http: HttpSecurity, tokenFilter: TokenFilter): SecurityFilterChain {
         http
             .csrf { it.disable() }
             .cors { cors ->
-                cors.configurationSource {
-                    CorsConfiguration().applyPermitDefaultValues()
-                }
+                cors.configurationSource(corsConfigurationSource())
             }
             .exceptionHandling { exceptions ->
                 exceptions.authenticationEntryPoint(HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
@@ -48,7 +61,8 @@ class SecurityConfigurator {
             .authorizeHttpRequests { authorize ->
                 authorize
                     .requestMatchers("/auth/**").permitAll()
-                    .anyRequest().authenticated() // fix
+                    .anyRequest().authenticated()
+
             }
             .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter::class.java)
 

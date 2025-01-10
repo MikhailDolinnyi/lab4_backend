@@ -16,10 +16,6 @@ class TokenFilter(
     private val userDetailsService: UserDetailsService
 ) : OncePerRequestFilter() {
 
-    companion object {
-        public var USERNAME: String = "";
-
-    }
 
     override fun doFilterInternal(
         request: HttpServletRequest,
@@ -40,7 +36,6 @@ class TokenFilter(
                 val username = jwtCore.getNameFromToken(jwt, isRefresh = false)
 
                 if (username != null && SecurityContextHolder.getContext().authentication == null) {
-                    USERNAME = username
                     val userDetails = userDetailsService.loadUserByUsername(username)
                     val auth = UsernamePasswordAuthenticationToken(userDetails, null, userDetails.authorities)
                     SecurityContextHolder.getContext().authentication = auth
