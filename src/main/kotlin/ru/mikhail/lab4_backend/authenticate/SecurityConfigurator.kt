@@ -34,7 +34,7 @@ class SecurityConfigurator {
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
         val corsConfiguration = CorsConfiguration()
-        corsConfiguration.allowedOrigins = listOf("http://localhost:3000") // Разрешённый адрес фронтенда
+        corsConfiguration.allowedOrigins = listOf("http://localhost:3000", "https://52ngg.ru:8443") // Разрешённый адрес фронтенда
         corsConfiguration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS") // Разрешённые методы
         corsConfiguration.allowedHeaders = listOf("*") // Разрешённые заголовки
         corsConfiguration.allowCredentials = true // Разрешение на использование куки
