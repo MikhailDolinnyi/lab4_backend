@@ -1,7 +1,7 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.9.25'
     id 'org.jetbrains.kotlin.plugin.spring' version '1.9.25'
-    id 'org.springframework.boot' version '3.4.0'
+    id 'org.springframework.boot' version '3.3.8'
     id 'io.spring.dependency-management' version '1.1.6'
     id 'org.jetbrains.kotlin.plugin.jpa' version '1.9.25'
     id("org.jetbrains.kotlin.kapt") version "1.9.25"
@@ -53,20 +53,17 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
     implementation("org.slf4j:slf4j-api:2.0.9")
-    implementation("ch.qos.logback:logback-classic:1.4.11")
+    implementation("ch.qos.logback:logback-classic:1.5.16")
 
-    implementation("org.springframework.boot:spring-boot-starter-data-redis:3.4.1")
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis:3.2.12'
 
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.2")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.2")
 
 
-
-
-
-
-
+    implementation("io.swagger.core.v3:swagger-annotations:2.2.14")
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
 
 
 }
