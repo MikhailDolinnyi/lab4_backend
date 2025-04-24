@@ -6,12 +6,10 @@ import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import ru.mikhail.lab4_backend.data.responses.GetDotsResponse
 import ru.mikhail.lab4_backend.data.requests.CheckRequest
 import ru.mikhail.lab4_backend.data.responses.CheckDotResponse
+import ru.mikhail.lab4_backend.data.responses.GetDotsResponse
 import ru.mikhail.lab4_backend.service.DotService
-
-
 
 
 @RestController

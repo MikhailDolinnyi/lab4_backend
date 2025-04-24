@@ -34,7 +34,7 @@ class UserDetailsImpl(
         return username
     }
 
-    fun getId(): Long{
+    fun getId(): Long {
         return id
     }
 

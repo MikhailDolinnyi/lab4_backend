@@ -13,6 +13,8 @@ import ru.mikhail.lab4_backend.dbobjects.Dot
 import ru.mikhail.lab4_backend.repository.DotRepository
 import ru.mikhail.lab4_backend.data.requests.CheckRequest
 import ru.mikhail.lab4_backend.data.responses.CheckDotResponse
+import ru.mikhail.lab4_backend.mbeans.ClickStats
+import ru.mikhail.lab4_backend.mbeans.DotStats
 import java.sql.Timestamp
 import java.time.LocalDateTime
 
@@ -20,10 +22,10 @@ import java.time.LocalDateTime
 class DotService(
     private val dotRepository: DotRepository,
     private val dotMapper: DotMapper,
-    private val securityContext: SecurityContext
+    private val securityContext: SecurityContext,
+    private val dotStats: DotStats,
+    private val clickStats: ClickStats
 ) {
-
-
 
 
     companion object {
@@ -33,32 +35,43 @@ class DotService(
     @Transactional
     fun completeCheckDot(checkRequest: CheckRequest): ResponseEntity<CheckDotResponse> {
 
+        clickStats.registerClick()
+
+        if (checkRequest.x !in -5f..3f || checkRequest.y !in -3f..3f || checkRequest.r !in 1f..3f) {
+            dotStats.sendOutOfBoundsNotification(checkRequest.x, checkRequest.y, checkRequest.r)
+            return ResponseEntity(CheckDotResponse(error = "Coordinates out of bounds"), HttpStatus.BAD_REQUEST)
+        }
 
 
-            val startTime = System.nanoTime()
-            val result = checkDot(checkRequest.x, checkRequest.y, checkRequest.r)
-            val endTime = System.nanoTime()
-            val executionTime = maxOf(endTime - startTime, MIN_EXECUTION_TIME_NS)
-            val now = Timestamp.valueOf(LocalDateTime.now())
+        val startTime = System.nanoTime()
+        val result = checkDot(checkRequest.x, checkRequest.y, checkRequest.r)
+        val endTime = System.nanoTime()
+        val executionTime = maxOf(endTime - startTime, MIN_EXECUTION_TIME_NS)
+        val now = Timestamp.valueOf(LocalDateTime.now())
 
-            val dot = Dot(
-                x = checkRequest.x,
-                y = checkRequest.y,
-                r = checkRequest.r,
-                result = result,
-                executionTime = executionTime,
-                time = now,
-                username = securityContext.getCurrentUser()
+        dotStats.registerDot(checkRequest.x, checkRequest.y, checkRequest.r)
 
+        val dot = Dot(
+            x = checkRequest.x,
+            y = checkRequest.y,
+            r = checkRequest.r,
+            result = result,
+            executionTime = executionTime,
+            time = now,
+            username = securityContext.getCurrentUser()
+
+        )
+
+        return try {
+            dotRepository.save(dot)
+            ResponseEntity(CheckDotResponse(info = "Dot successfully added!"), HttpStatus.OK)
+        } catch (ex: DataAccessException) {
+            println(ex.message)
+            ResponseEntity(
+                CheckDotResponse(error = "Error while trying connect to database"),
+                HttpStatus.INTERNAL_SERVER_ERROR
             )
-
-            return try {
-                dotRepository.save(dot)
-                ResponseEntity(CheckDotResponse(info = "Dot successfully added!"), HttpStatus.OK)
-            } catch (ex: DataAccessException) {
-                println(ex.message)
-                ResponseEntity(CheckDotResponse(error = "Error while trying connect to database"), HttpStatus.INTERNAL_SERVER_ERROR)
-            }
+        }
 
     }
 
@@ -67,8 +80,6 @@ class DotService(
         val dots = dotRepository.findDotsByUsername(securityContext.getCurrentUser())
         return dots.map { dotMapper.toDto(it) }
     }
-
-
 
 
 }

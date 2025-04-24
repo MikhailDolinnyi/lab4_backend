@@ -1,4 +1,4 @@
-package ru.mikhail.lab4_backend
+package ru.mikhail.lab4_backend.configs
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule

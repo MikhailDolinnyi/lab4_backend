@@ -23,7 +23,7 @@ class TokenFilter(
         filterChain: FilterChain
     ) {
         val path = request.servletPath
-        if (path.startsWith("/auth/")) {
+        if (path.startsWith("/auth/") ) {
             filterChain.doFilter(request, response)
             return
         }
